@@ -1,0 +1,265 @@
+/* ════════════════════════════════════════════════════════════
+   🎨 TOKENS DE DISEÑO
+   ──────────────────────────────────────────────────────────
+   Color:
+     --bg-deep     #0b1224  índigo casi negro (fondo profundo)
+     --bg-mid      #241a3d  violeta (degradado de fondo)
+     --metal       #b9c0c9  cromado claro (biseles del player)
+     --metal-dark  #4b5160  cromado oscuro (sombras del bisel)
+     --accent-cyan #35e0c8  cian visualizador (acento principal)
+     --accent-amber #ffb238 ámbar LCD (acento cálido / alertas)
+     --text-light  #eef1f5  texto principal sobre fondo oscuro
+   Tipografía:
+     "Press Start 2P" -> solo títulos/logo (pixel, personalidad retro)
+     "Rubik"           -> todo el cuerpo de texto (legible, moderna)
+   Layout: tarjeta central única, sin scroll horizontal, bordes
+   duros (sin radios genéricos de "SaaS card"), estilo "gadget de
+   escritorio 2003" con scanlines sutiles de fondo.
+   ════════════════════════════════════════════════════════════ */
+
+:root {
+  --bg-deep: #0b1224;
+  --bg-mid: #241a3d;
+  --metal: #b9c0c9;
+  --metal-dark: #4b5160;
+  --accent-cyan: #35e0c8;
+  --accent-amber: #ffb238;
+  --text-light: #eef1f5;
+  --peligro: #ff5d5d;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Rubik", system-ui, sans-serif;
+  color: var(--text-light);
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 3px),
+    radial-gradient(ellipse at top, var(--bg-mid), var(--bg-deep) 70%);
+  background-attachment: fixed;
+}
+
+.titulo-pixel {
+  font-family: "Press Start 2P", monospace;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+}
+
+/* ── Vista de autenticación ─────────────────────────────── */
+.vista-auth {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.tarjeta-auth {
+  background: linear-gradient(180deg, #1a1430, #100c22);
+  border: 2px solid var(--metal-dark);
+  box-shadow: 0 0 0 1px rgba(53,224,200,0.15), 0 20px 60px rgba(0,0,0,0.5);
+  padding: 32px;
+  max-width: 420px;
+  width: 100%;
+}
+
+.tarjeta-auth h1 { font-size: 14px; text-align: center; color: var(--accent-cyan); margin-bottom: 8px; }
+.subtitulo-auth { text-align: center; opacity: 0.7; margin-bottom: 24px; font-size: 14px; }
+
+.form-auth h2 { font-size: 18px; margin-bottom: 12px; }
+.form-auth input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  background: #0d0a1a;
+  border: 1px solid var(--metal-dark);
+  color: var(--text-light);
+  font-family: "Rubik", sans-serif;
+}
+.form-auth input:focus { outline: 2px solid var(--accent-cyan); }
+
+.btn-principal {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent-cyan);
+  color: #0b1224;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Rubik", sans-serif;
+}
+.btn-principal:hover { filter: brightness(1.1); }
+
+.link-auth { text-align: center; font-size: 13px; margin-top: 12px; }
+.link-auth a { color: var(--accent-cyan); }
+
+.auth-error {
+  background: rgba(255,93,93,0.15);
+  border: 1px solid var(--peligro);
+  color: #ffb0b0;
+  padding: 10px 12px;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.nota-limite { font-size: 12px; opacity: 0.65; margin-top: 8px; }
+
+/* ── App principal ──────────────────────────────────────── */
+#vista-app { max-width: 960px; margin: 0 auto; padding: 20px 20px 60px; }
+
+.banner-creador {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(90deg, #1c1436, #241a3d);
+  border: 2px solid var(--metal-dark);
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.banner-contenido { display: flex; align-items: center; gap: 14px; }
+.banner-avatar {
+  font-size: 32px;
+  background: radial-gradient(circle, var(--accent-cyan), transparent 70%);
+  padding: 10px;
+  animation: girar-suave 6s linear infinite;
+}
+@keyframes girar-suave { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.banner-titulo { font-size: 12px; color: var(--accent-cyan); margin: 0 0 4px; }
+.banner-creador-texto { margin: 0; font-size: 13px; opacity: 0.8; }
+.banner-usuario { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+
+.btn-mini, .btn-mini-peligro {
+  background: transparent;
+  border: 1px solid var(--metal-dark);
+  color: var(--text-light);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-family: "Rubik", sans-serif;
+  font-size: 13px;
+}
+.btn-mini:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+.btn-mini-peligro { border-color: var(--peligro); color: var(--peligro); }
+.btn-mini-peligro:hover { background: rgba(255,93,93,0.15); }
+
+/* ── Selector de skins ──────────────────────────────────── */
+.selector-skins { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.btn-skin {
+  padding: 8px 14px;
+  background: #14102a;
+  border: 1px solid var(--metal-dark);
+  color: var(--text-light);
+  cursor: pointer;
+  font-family: "Rubik", sans-serif;
+  font-size: 13px;
+}
+.btn-skin.activo { border-color: var(--accent-amber); color: var(--accent-amber); }
+
+/* ── Ancho de banda ─────────────────────────────────────── */
+.contador-banda { font-size: 12px; opacity: 0.75; margin: 4px 0 16px; }
+
+/* ── Subida de canciones ────────────────────────────────── */
+.panel-subida { margin: 20px 0; text-align: center; }
+.etiqueta-archivo { display: inline-block; width: auto; cursor: pointer; }
+.estado-subida { font-size: 13px; margin-top: 8px; min-height: 18px; }
+
+/* ── Canciones + letras ─────────────────────────────────── */
+.zona-canciones-letras {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 20px;
+  margin-top: 24px;
+}
+@media (max-width: 720px) { .zona-canciones-letras { grid-template-columns: 1fr; } }
+
+.titulo-seccion { font-size: 12px; color: var(--accent-cyan); margin-bottom: 14px; }
+
+.panel-canciones, .panel-letras {
+  background: rgba(20,16,42,0.6);
+  border: 1px solid var(--metal-dark);
+  padding: 16px;
+}
+
+.filtros { display: flex; gap: 8px; margin-bottom: 12px; }
+.filtros input, .filtros select {
+  background: #0d0a1a;
+  border: 1px solid var(--metal-dark);
+  color: var(--text-light);
+  padding: 8px;
+  font-family: "Rubik", sans-serif;
+  flex: 1;
+}
+
+.lista-canciones { list-style: none; margin: 0; padding: 0; max-height: 420px; overflow-y: auto; }
+.item-cancion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  cursor: pointer;
+}
+.item-cancion.activa { background: rgba(53,224,200,0.1); border-left: 3px solid var(--accent-cyan); }
+.item-cancion:hover { background: rgba(255,255,255,0.04); }
+.cancion-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.cancion-nombre { font-size: 15px; font-weight: 500; }
+.cancion-meta { font-size: 11px; opacity: 0.6; }
+.cancion-estrellas { color: var(--accent-amber); font-size: 13px; }
+.calificar-actual { margin-top: 14px; font-size: 22px; color: var(--accent-amber); }
+.estrella-clicable { cursor: pointer; margin-right: 2px; }
+
+/* ── Letras ──────────────────────────────────────────────── */
+.letra-vacia { opacity: 0.55; font-size: 14px; }
+.visor-letra { font-size: 16px; line-height: 1.7; min-height: 120px; white-space: pre-wrap; }
+.barra-formato { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+.barra-formato button, .barra-formato select {
+  background: #0d0a1a;
+  border: 1px solid var(--metal-dark);
+  color: var(--text-light);
+  padding: 6px 10px;
+  cursor: pointer;
+  font-family: "Rubik", sans-serif;
+}
+.editor-letra {
+  min-height: 160px;
+  background: #0d0a1a;
+  border: 1px solid var(--accent-cyan);
+  padding: 12px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.botones-letra { display: flex; gap: 8px; margin-top: 12px; }
+
+/* ── Chat ────────────────────────────────────────────────── */
+.panel-chat {
+  margin-top: 24px;
+  background: rgba(20,16,42,0.6);
+  border: 1px solid var(--metal-dark);
+  padding: 16px;
+}
+.mensajes-chat { max-height: 260px; overflow-y: auto; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px; }
+.mensaje-chat { font-size: 14px; padding: 6px 10px; background: rgba(255,255,255,0.04); max-width: 80%; }
+.mensaje-chat.propio { align-self: flex-end; background: rgba(53,224,200,0.15); }
+.chat-autor { font-weight: 700; margin-right: 6px; color: var(--accent-cyan); font-size: 12px; }
+.selector-emojis { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+.btn-emoji { background: transparent; border: none; font-size: 18px; cursor: pointer; }
+.form-chat { display: flex; gap: 8px; }
+.form-chat input {
+  flex: 1;
+  background: #0d0a1a;
+  border: 1px solid var(--metal-dark);
+  color: var(--text-light);
+  padding: 10px;
+  font-family: "Rubik", sans-serif;
+}
+
+.pie-pagina { text-align: center; opacity: 0.45; font-size: 12px; margin-top: 30px; }
+
+/* ── Modal admin ─────────────────────────────────────────── */
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 50; }
+.modal-contenido { background: #1a1430; border: 2px solid var(--metal-dark); padding: 24px; max-width: 420px; width: 90%; }
+.lista-usuarios-admin { list-style: none; padding: 0; margin: 16px 0; }
+.lista-usuarios-admin li { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 14px; }
