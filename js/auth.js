@@ -174,3 +174,8 @@ function traducirErrorFirebase(err) {
   };
   return map[err.code] || err.message;
 }
+
+
+// DEBUG: verificar si el botón existe
+console.log("🔍 Botón cerrar admin:", $("#btn-cerrar-admin"));
+console.log(" Modal admin:", $("#modal-admin"));
