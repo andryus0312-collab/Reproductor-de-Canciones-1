@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>🎧 Reproductor Retro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/skins.css">
+</head>
+<body data-skin="winamp">
+
+<!-- ═══════════════ VISTA: LOGIN / REGISTRO ═══════════════ -->
+<section id="vista-auth" class="vista-auth">
+  <div class="tarjeta-auth">
+    <h1 class="titulo-pixel">🎧 REPRODUCTOR RETRO</h1>
+    <p class="subtitulo-auth">Un espacio nostálgico solo para nosotros 3 ✨</p>
+
+    <p id="auth-error" class="auth-error" hidden></p>
+
+    <form id="form-login" class="form-auth">
+      <h2>Entrar</h2>
+      <input type="email" id="login-email" placeholder="Correo" required>
+      <input type="password" id="login-pass" placeholder="Contraseña" required>
+      <button type="submit" class="btn-principal">▶ Entrar</button>
+      <p class="link-auth">¿No tienes cuenta? <a href="#" id="link-ir-registro">Regístrate</a></p>
+    </form>
+
+    <form id="form-registro" class="form-auth" hidden>
+      <h2>Crear cuenta</h2>
+      <input type="text" id="registro-nombre" placeholder="Tu nombre" required>
+      <input type="email" id="registro-email" placeholder="Correo" required>
+      <input type="password" id="registro-pass" placeholder="Contraseña (mín. 6 caracteres)" required>
+      <button type="submit" class="btn-principal">✨ Registrarme</button>
+      <p class="link-auth">¿Ya tienes cuenta? <a href="#" id="link-ir-login">Entra aquí</a></p>
+      <p class="nota-limite">⚠️ Solo hay espacio para {{MAX_USUARIOS}} personas. Si está lleno, pídele al admin que libere un cupo.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════════ VISTA: APP PRINCIPAL ═══════════════ -->
+<section id="vista-app" hidden>
+
+  <!-- Banner superior -->
+  <header class="banner-creador">
+    <div class="banner-contenido">
+      <span class="banner-avatar">🎛️</span>
+      <div>
+        <h1 class="titulo-pixel banner-titulo">REPRODUCTOR RETRO</h1>
+        <p class="banner-creador-texto">Creado con ♥ por <strong>Andryus</strong></p>
+      </div>
+    </div>
+    <div class="banner-usuario">
+      <span id="usuario-nombre"></span>
+      <button id="btn-abrir-admin" hidden>⚙️ Admin</button>
+      <button id="btn-logout" class="btn-mini">Salir</button>
+    </div>
+  </header>
+
+  <!-- Selector de skin -->
+  <nav class="selector-skins">
+    <button class="btn-skin" data-skin="winamp">💿 Winamp / XP</button>
+    <button class="btn-skin" data-skin="ipod">🎵 iPod</button>
+    <button class="btn-skin" data-skin="sonyericsson">📱 Sony Ericsson</button>
+  </nav>
+
+  <!-- Reproductor -->
+  <div class="carcasa-player">
+    <div class="pantalla-player">
+      <p id="player-titulo" class="player-titulo">Selecciona una canción ♪</p>
+      <p id="player-subtitulo" class="player-subtitulo"></p>
+      <div class="barra-tiempo">
+        <span id="tiempo-actual">0:00</span>
+        <input type="range" id="barra-progreso" min="0" max="100" value="0">
+        <span id="tiempo-total">0:00</span>
+      </div>
+    </div>
+    <div class="controles-player">
+      <button id="btn-play-pause" class="btn-transporte">▶</button>
+      <input type="range" id="control-volumen" min="0" max="100" value="80" title="Volumen">
+    </div>
+  </div>
+
+  <!-- Ancho de banda -->
+  <p id="contador-ancho-banda" class="contador-banda"></p>
+  <button id="btn-reiniciar-ancho-banda" class="btn-mini" hidden>Reiniciar contador</button>
+
+  <!-- Subida de canciones -->
+  <div class="panel-subida">
+    <label class="btn-principal etiqueta-archivo">
+      ⬆️ Subir canciones
+      <input type="file" id="input-subir-canciones" accept="audio/*" multiple hidden>
+    </label>
+    <p class="nota-limite">Hasta 5 canciones por vez · Cualquier formato de audio · Máx 10MB c/u</p>
+    <p id="estado-subida" class="estado-subida"></p>
+  </div>
+
+  <!-- Lista de canciones + Letras -->
+  <div class="zona-canciones-letras">
+    <div class="panel-canciones">
+      <h2 class="titulo-pixel titulo-seccion">🎶 CANCIONES</h2>
+      <div class="filtros">
+        <input type="text" id="filtro-nombre" placeholder="🔍 Buscar por nombre...">
+        <select id="filtro-orden">
+          <option value="fecha">Más recientes</option>
+          <option value="nombre">Nombre (A-Z)</option>
+          <option value="tamano">Tamaño</option>
+          <option value="calificacion">Calificación ⭐</option>
+        </select>
+      </div>
+      <ul id="lista-canciones" class="lista-canciones"></ul>
+      <div id="calificar-actual" class="calificar-actual"></div>
+    </div>
+
+    <div class="panel-letras">
+      <h2 class="titulo-pixel titulo-seccion">📝 LETRA</h2>
+      <p id="panel-letra-vacio" class="letra-vacia">Selecciona una canción para ver o añadir su letra.</p>
+
+      <div id="visor-letra" class="visor-letra" hidden></div>
+
+      <div class="barra-formato">
+        <button data-formato="bold" title="Negrita"><b>B</b></button>
+        <button data-formato="justifyLeft" title="Izquierda">⬅</button>
+        <button data-formato="justifyCenter" title="Centrar">↔</button>
+        <button data-formato="justifyFull" title="Justificar">☰</button>
+        <select id="selector-tipografia-letra" title="Tipografía">
+          <option value="Rubik">Rubik</option>
+          <option value="Press Start 2P">Pixel</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Courier New">Courier</option>
+        </select>
+        <button data-formato="fontSize" data-valor="3" title="Tamaño normal">A</button>
+        <button data-formato="fontSize" data-valor="6" title="Tamaño grande">A+</button>
+        <input type="color" id="selector-color-letra" value="#eef1f5" title="Color">
+      </div>
+      <div id="editor-letra" class="editor-letra" contenteditable="true" hidden></div>
+
+      <div class="botones-letra">
+        <button id="btn-anadir-editar-letra" class="btn-mini">✏️ Añadir / Editar letra</button>
+        <button id="btn-guardar-letra" class="btn-mini" hidden>💾 Guardar</button>
+        <button id="btn-cancelar-letra" class="btn-mini" hidden>✖ Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat grupal -->
+  <div class="panel-chat">
+    <h2 class="titulo-pixel titulo-seccion">💬 CHAT (se borra al salir)</h2>
+    <div id="mensajes-chat" class="mensajes-chat"></div>
+    <div id="selector-emojis" class="selector-emojis"></div>
+    <form id="form-chat" class="form-chat">
+      <input type="text" id="input-chat" placeholder="Escribe un mensaje...">
+      <button type="submit" class="btn-mini">Enviar</button>
+    </form>
+  </div>
+
+  <footer class="pie-pagina">
+    <p>🎧 Reproductor Retro — hecho con nostalgia por Andryus</p>
+  </footer>
+</section>
+
+<!-- ═══════════════ MODAL ADMIN ═══════════════ -->
+<div id="modal-admin" class="modal" hidden>
+  <div class="modal-contenido">
+    <h2>⚙️ Panel de administrador</h2>
+    <p class="nota-limite">Aquí puedes liberar un cupo eliminando a alguien (tu cuenta de admin nunca aparece con botón de eliminar).</p>
+    <ul id="lista-usuarios-admin" class="lista-usuarios-admin"></ul>
+    <button id="btn-cerrar-admin" class="btn-mini">Cerrar</button>
+  </div>
+</div>
+
+<!-- Firebase SDK (compat, más simple para este proyecto) — solo Auth + Firestore -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+
+<!-- Supabase SDK — aquí viven los archivos de audio (gratis, sin tarjeta) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/firebase-config.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/player.js"></script>
+<script src="js/songs.js"></script>
+<script src="js/lyrics.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/bandwidth.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

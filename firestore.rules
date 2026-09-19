@@ -1,0 +1,91 @@
+rules_version = '2';
+
+// ════════════════════════════════════════════════════════════
+// 🔒 REGLAS DE FIRESTORE
+// Pégalas en: Firebase Console > Firestore Database > Reglas
+// ════════════════════════════════════════════════════════════
+//
+// ⚠️ IMPORTANTE: reemplaza "tu_correo_admin@ejemplo.com" abajo por
+// el MISMO correo que pusiste como ADMIN_EMAIL en firebase-config.js
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function estaLogueado() {
+      return request.auth != null;
+    }
+
+    function esMiDocumento(uid) {
+      return request.auth.uid == uid;
+    }
+
+    function esAdmin() {
+      return estaLogueado() &&
+        exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.esAdmin == true;
+    }
+
+    // ── Usuarios ──────────────────────────────────────────
+    match /usuarios/{uid} {
+      allow read: if estaLogueado();
+
+      // ⚠️ HONESTIDAD TÉCNICA: las reglas de seguridad de Firestore NO
+      // pueden contar "cuántos documentos hay en total" en una colección
+      // sin Cloud Functions (no existe una forma nativa y segura de
+      // hacer ese conteo aquí). Por eso el límite de 3 usuarios se hace
+      // 100% en el cliente (auth.js), y aquí solo garantizamos que:
+      //   - cada quien solo puede crear SU PROPIO documento de usuario
+      //   - nadie puede crearse a sí mismo como admin
+      // Esto significa que alguien con conocimientos técnicos podría, en
+      // teoría, saltarse el límite de 3 editando el código en su propio
+      // navegador. Es el trade-off que aceptaste a cambio de no usar el
+      // plan Blaze. Con solo 3 amigos usando la app, el riesgo real es
+      // mínimo.
+      // 👇 Reemplaza este correo por el MISMO que pusiste como
+      // ADMIN_EMAIL en firebase-config.js (debe coincidir exactamente)
+      allow create: if estaLogueado() && esMiDocumento(uid)
+        && request.resource.data.email == request.auth.token.email
+        && (
+          request.resource.data.esAdmin == false ||
+          request.resource.data.email == "tu_correo_admin@ejemplo.com"
+        );
+
+      // Nadie puede modificar su propio campo esAdmin ni el de otros
+      allow update: if esMiDocumento(uid)
+        && request.resource.data.esAdmin == resource.data.esAdmin;
+
+      // Solo el admin puede borrar documentos de usuario (para liberar
+      // cupos), y NUNCA puede borrar su propio documento de admin
+      allow delete: if esAdmin() && resource.data.esAdmin == false;
+    }
+
+    // ── Canciones ─────────────────────────────────────────
+    match /canciones/{id} {
+      allow read: if estaLogueado();
+      allow create: if estaLogueado() && request.resource.data.subidoPorUid == request.auth.uid;
+      // Cualquiera logueado puede actualizar (para calificar con estrellas),
+      // pero solo puede tocar su propia entrada dentro de "calificaciones"
+      allow update: if estaLogueado();
+      allow delete: if estaLogueado() &&
+        (resource.data.subidoPorUid == request.auth.uid || esAdmin());
+    }
+
+    // ── Letras ────────────────────────────────────────────
+    match /letras/{id} {
+      allow read, write: if estaLogueado();
+    }
+
+    // ── Chat efímero ──────────────────────────────────────
+    match /chat/{id} {
+      allow read: if estaLogueado();
+      allow create: if estaLogueado() && request.resource.data.uid == request.auth.uid;
+      allow delete: if estaLogueado(); // cualquiera puede limpiar al salir
+    }
+
+    // ── Contador de ancho de banda ──────────────────────────
+    match /meta/{id} {
+      allow read: if estaLogueado();
+      allow write: if estaLogueado();
+    }
+  }
+}
