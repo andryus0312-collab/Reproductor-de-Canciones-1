@@ -27,7 +27,7 @@ service cloud.firestore {
 
     // ── Usuarios ──────────────────────────────────────────
     match /usuarios/{uid} {
-      allow read: if estaLogueado();
+      allow read: if true;
 
       // ⚠️ HONESTIDAD TÉCNICA: las reglas de seguridad de Firestore NO
       // pueden contar "cuántos documentos hay en total" en una colección
