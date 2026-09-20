@@ -6,6 +6,11 @@
 let cancionActual = null; // { id, nombre, ...}
 let cacheCanciones = [];
 
+function sanitizarNombreArchivo(nombre) {
+  return nombre
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // quita tildes
+    .replace(/[^a-zA-Z0-9._-]/g, "_"); // reemplaza todo lo raro por "_"
+}
 $("#input-subir-canciones").addEventListener("change", async (e) => {
   const archivos = Array.from(e.target.files);
   const estadoEl = $("#estado-subida");
@@ -29,7 +34,7 @@ $("#input-subir-canciones").addEventListener("change", async (e) => {
 
   for (const archivo of archivos) {
     try {
-      const rutaStorage = `${usuarioActual.uid}_${Date.now()}_${archivo.name}`;
+      const rutaStorage = `${usuarioActual.uid}_${Date.now()}_${sanitizarNombreArchivo(archivo.name)}`;
 
       const { error: errorSubida } = await supabaseClient.storage
         .from(NOMBRE_BUCKET)
