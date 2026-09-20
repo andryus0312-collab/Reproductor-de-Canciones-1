@@ -260,6 +260,7 @@ body {
 
 /* ── Modal admin ─────────────────────────────────────────── */
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 50; }
+.modal[hidden] { display: none; }
 .modal-contenido { background: #1a1430; border: 2px solid var(--metal-dark); padding: 24px; max-width: 420px; width: 90%; }
 .lista-usuarios-admin { list-style: none; padding: 0; margin: 16px 0; }
 .lista-usuarios-admin li { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 14px; }
