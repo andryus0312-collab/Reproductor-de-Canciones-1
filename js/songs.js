@@ -25,6 +25,8 @@ $("#input-subir-canciones").addEventListener("change", async (e) => {
 
   estadoEl.textContent = `⏳ Subiendo ${archivos.length} canción(es)...`;
 
+  let errores = [];
+
   for (const archivo of archivos) {
     try {
       const rutaStorage = `${usuarioActual.uid}_${Date.now()}_${archivo.name}`;
@@ -49,24 +51,35 @@ $("#input-subir-canciones").addEventListener("change", async (e) => {
         subidoPorUid: usuarioActual.uid,
         fecha: firebase.firestore.FieldValue.serverTimestamp(),
         calificacion: 0,
-        calificaciones: {} // { uid: estrellas } para promediar
+        calificaciones: {}
       });
 
       await registrarUsoAncho(archivo.size, "subida");
     } catch (err) {
-      estadoEl.textContent = "❌ Error subiendo " + archivo.name + ": " + err.message;
+      console.error("Error subiendo", archivo.name, err);
+      errores.push(`${archivo.name}: ${err.message || err}`);
     }
   }
 
-  estadoEl.textContent = `✅ ¡Listo! Se subieron ${archivos.length} canción(es).`;
+  if (errores.length === 0) {
+    estadoEl.textContent = `✅ ¡Listo! Se subieron ${archivos.length} canción(es).`;
+  } else {
+    estadoEl.textContent = `❌ Falló: ${errores.join(" | ")}`;
+  }
   e.target.value = "";
 });
 
 function suscribirseACanciones() {
-  db.collection("canciones").orderBy("fecha", "desc").onSnapshot((snap) => {
-    cacheCanciones = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderizarListaCanciones();
-  });
+  db.collection("canciones").orderBy("fecha", "desc").onSnapshot(
+    (snap) => {
+      cacheCanciones = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderizarListaCanciones();
+    },
+    (err) => {
+      console.error("Error leyendo canciones:", err);
+      $("#estado-subida").textContent = "❌ No se pudo cargar la lista de canciones: " + err.message;
+    }
+  );
 }
 
 function renderizarListaCanciones() {
