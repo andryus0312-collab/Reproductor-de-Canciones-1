@@ -79,10 +79,14 @@ function suscribirseACanciones() {
   db.collection("canciones").orderBy("fecha", "desc").onSnapshot(
     (snap) => {
       cacheCanciones = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const dbg = document.getElementById("debug-canciones");
+      if (dbg) dbg.textContent = `🔧 debug: llegaron ${snap.size} documento(s) de Firestore`;
       renderizarListaCanciones();
     },
     (err) => {
       console.error("Error leyendo canciones:", err);
+      const dbg = document.getElementById("debug-canciones");
+      if (dbg) dbg.textContent = "🔧 debug: ERROR AL LEER - " + err.message;
       $("#estado-subida").textContent = "❌ No se pudo cargar la lista de canciones: " + err.message;
     }
   );
