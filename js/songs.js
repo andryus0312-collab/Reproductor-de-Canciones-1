@@ -33,8 +33,9 @@ $("#input-subir-canciones").addEventListener("change", async (e) => {
   let errores = [];
 
   for (const archivo of archivos) {
+    let rutaStorage;
     try {
-      const rutaStorage = `${usuarioActual.uid}_${Date.now()}_${sanitizarNombreArchivo(archivo.name)}`;
+      rutaStorage = `${usuarioActual.uid}_${Date.now()}_${sanitizarNombreArchivo(archivo.name)}`;
 
       const { error: errorSubida } = await supabaseClient.storage
         .from(NOMBRE_BUCKET)
@@ -61,8 +62,8 @@ $("#input-subir-canciones").addEventListener("change", async (e) => {
 
       await registrarUsoAncho(archivo.size, "subida");
     } catch (err) {
-      console.error("Error subiendo", archivo.name, err);
-      errores.push(`${archivo.name}: ${err.message || err}`);
+      console.error("Error subiendo", archivo.name, "ruta:", rutaStorage, err);
+      errores.push(`${archivo.name} [ruta: ${rutaStorage}]: ${err.message || err}`);
     }
   }
 
