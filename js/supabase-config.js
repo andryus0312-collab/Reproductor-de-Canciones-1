@@ -9,7 +9,7 @@
 // 3. Ve a Settings (⚙️) > API y copia "Project URL" y "anon public" key
 // 4. Pégalos abajo
 
-const SUPABASE_URL = "https://bdfymoothvcgkjqwvuqy.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://bdfymoothvcgkjqwvuqy.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_J5ULm7DE9B93hoK8o7eq-g_ZV-0pg3r";
 
 const NOMBRE_BUCKET = "canciones";
