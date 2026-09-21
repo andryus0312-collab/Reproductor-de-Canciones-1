@@ -5,7 +5,6 @@
 let _yaInicializado = false;
 
 function onUsuarioListo() {
-  alert("🔧 DEBUG: onUsuarioListo() se ejecutó. _yaInicializado = " + _yaInicializado);
   if (_yaInicializado) return;
   _yaInicializado = true;
 
