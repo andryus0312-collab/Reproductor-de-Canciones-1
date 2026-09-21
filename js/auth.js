@@ -121,7 +121,15 @@ auth.onAuthStateChanged(async (user) => {
   $("#usuario-nombre").textContent = usuarioActual.nombre + (usuarioActual.esAdmin ? " 👑" : "");
   $("#panel-admin").hidden = !usuarioActual.esAdmin;
 
-  if (typeof onUsuarioListo === "function") onUsuarioListo();
+  if (typeof onUsuarioListo === "function") {
+    try {
+      onUsuarioListo();
+    } catch (errOnUsuarioListo) {
+      console.error("Error en onUsuarioListo:", errOnUsuarioListo);
+      const dbg = document.getElementById("debug-canciones");
+      if (dbg) dbg.textContent = "🔧 ERROR en onUsuarioListo: " + errOnUsuarioListo.message;
+    }
+  }
 });
 
 // ── Panel de administrador: ver y eliminar usuarios ─────────
