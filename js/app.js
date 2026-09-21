@@ -5,9 +5,13 @@
 let _yaInicializado = false;
 
 function onUsuarioListo() {
+  const dbg = document.getElementById("debug-canciones");
+  if (dbg) dbg.textContent = "🔧 paso 1: onUsuarioListo() INICIÓ (yaInic=" + _yaInicializado + ")";
+
   if (_yaInicializado) return;
   _yaInicializado = true;
 
+  if (dbg) dbg.textContent = "🔧 paso 2: a punto de llamar suscribirseACanciones()";
   suscribirseACanciones();
   iniciarEscuchaChat();
   suscribirseAAnchoDeBanda();
