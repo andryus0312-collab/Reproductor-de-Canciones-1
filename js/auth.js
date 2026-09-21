@@ -121,6 +121,11 @@ auth.onAuthStateChanged(async (user) => {
   $("#usuario-nombre").textContent = usuarioActual.nombre + (usuarioActual.esAdmin ? " 👑" : "");
   $("#btn-abrir-admin").hidden = !usuarioActual.esAdmin;
 
+  if (usuarioActual.esAdmin && typeof eruda !== "undefined" && !window._erudaActivo) {
+    eruda.init();
+    window._erudaActivo = true;
+  }
+
   if (typeof onUsuarioListo === "function") {
     try {
       onUsuarioListo();
