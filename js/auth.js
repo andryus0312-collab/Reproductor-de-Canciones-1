@@ -122,17 +122,11 @@ auth.onAuthStateChanged(async (user) => {
   $("#btn-abrir-admin").hidden = !usuarioActual.esAdmin;
 
   if (typeof onUsuarioListo === "function") {
-    document.title = "PASO-0-A-PUNTO-DE-LLAMAR";
     try {
       onUsuarioListo();
     } catch (errOnUsuarioListo) {
       console.error("Error en onUsuarioListo:", errOnUsuarioListo);
-      document.title = "PASO-ERROR: " + errOnUsuarioListo.message;
-      const dbg = document.getElementById("debug-canciones");
-      if (dbg) dbg.textContent = "🔧 ERROR en onUsuarioListo: " + errOnUsuarioListo.message;
     }
-  } else {
-    document.title = "PASO-X-onUsuarioListo-NO-ES-FUNCION";
   }
 });
 
