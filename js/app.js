@@ -5,7 +5,8 @@
 let _yaInicializado = false;
 
 function onUsuarioListo() {
-  if (_yaInicializado) return; // evita duplicar listeners si vuelve a loguearse
+  alert("🔧 DEBUG: onUsuarioListo() se ejecutó. _yaInicializado = " + _yaInicializado);
+  if (_yaInicializado) return;
   _yaInicializado = true;
 
   suscribirseACanciones();
