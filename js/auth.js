@@ -119,7 +119,7 @@ auth.onAuthStateChanged(async (user) => {
   authView.hidden = true;
   appView.hidden = false;
   $("#usuario-nombre").textContent = usuarioActual.nombre + (usuarioActual.esAdmin ? " 👑" : "");
-  $("#panel-admin").hidden = !usuarioActual.esAdmin;
+  $("#btn-abrir-admin").hidden = !usuarioActual.esAdmin;
 
   if (typeof onUsuarioListo === "function") {
     document.title = "PASO-0-A-PUNTO-DE-LLAMAR";
