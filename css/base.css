@@ -1,22 +1,21 @@
 /* ════════════════════════════════════════════════════════════
-   🎨 TOKENS DE DISEÑO
-   ──────────────────────────────────────────────────────────
-   Color:
-     --bg-deep     #0b1224  índigo casi negro (fondo profundo)
-     --bg-mid      #241a3d  violeta (degradado de fondo)
-     --metal       #b9c0c9  cromado claro (biseles del player)
-     --metal-dark  #4b5160  cromado oscuro (sombras del bisel)
-     --accent-cyan #35e0c8  cian visualizador (acento principal)
-     --accent-amber #ffb238 ámbar LCD (acento cálido / alertas)
-     --text-light  #eef1f5  texto principal sobre fondo oscuro
-   Tipografía:
-     "Press Start 2P" -> solo títulos/logo (pixel, personalidad retro)
-     "Rubik"           -> todo el cuerpo de texto (legible, moderna)
-   Layout: tarjeta central única, sin scroll horizontal, bordes
-   duros (sin radios genéricos de "SaaS card"), estilo "gadget de
-   escritorio 2003" con scanlines sutiles de fondo.
-   ════════════════════════════════════════════════════════════ */
-
+🎨 TOKENS DE DISEÑO
+──────────────────────────────────────────────────────────
+Color:
+--bg-deep     #0b1224  índigo casi negro (fondo profundo)
+--bg-mid      #241a3d  violeta (degradado de fondo)
+--metal       #b9c0c9  cromado claro (biseles del player)
+--metal-dark  #4b5160  cromado oscuro (sombras del bisel)
+--accent-cyan #35e0c8  cian visualizador (acento principal)
+--accent-amber #ffb238 ámbar LCD (acento cálido / alertas)
+--text-light  #eef1f5  texto principal sobre fondo oscuro
+Tipografía:
+"Press Start 2P" -> solo títulos/logo (pixel, personalidad retro)
+"Rubik"           -> todo el cuerpo de texto (legible, moderna)
+Layout: tarjeta central única, sin scroll horizontal, bordes
+duros (sin radios genéricos de "SaaS card"), estilo "gadget de
+escritorio 2003" con scanlines sutiles de fondo.
+════════════════════════════════════════════════════════════ */
 :root {
   --bg-deep: #0b1224;
   --bg-mid: #241a3d;
@@ -56,7 +55,6 @@ body {
   justify-content: center;
   padding: 24px;
 }
-
 .tarjeta-auth {
   background: linear-gradient(180deg, #1a1430, #100c22);
   border: 2px solid var(--metal-dark);
@@ -65,10 +63,8 @@ body {
   max-width: 420px;
   width: 100%;
 }
-
 .tarjeta-auth h1 { font-size: 14px; text-align: center; color: var(--accent-cyan); margin-bottom: 8px; }
 .subtitulo-auth { text-align: center; opacity: 0.7; margin-bottom: 24px; font-size: 14px; }
-
 .form-auth h2 { font-size: 18px; margin-bottom: 12px; }
 .form-auth input {
   width: 100%;
@@ -80,7 +76,6 @@ body {
   font-family: "Rubik", sans-serif;
 }
 .form-auth input:focus { outline: 2px solid var(--accent-cyan); }
-
 .btn-principal {
   width: 100%;
   padding: 12px;
@@ -92,10 +87,8 @@ body {
   font-family: "Rubik", sans-serif;
 }
 .btn-principal:hover { filter: brightness(1.1); }
-
 .link-auth { text-align: center; font-size: 13px; margin-top: 12px; }
 .link-auth a { color: var(--accent-cyan); }
-
 .auth-error {
   background: rgba(255,93,93,0.15);
   border: 1px solid var(--peligro);
@@ -104,12 +97,10 @@ body {
   font-size: 14px;
   margin-bottom: 16px;
 }
-
 .nota-limite { font-size: 12px; opacity: 0.65; margin-top: 8px; }
 
 /* ── App principal ──────────────────────────────────────── */
 #vista-app { max-width: 960px; margin: 0 auto; padding: 20px 20px 60px; }
-
 .banner-creador {
   display: flex;
   justify-content: space-between;
@@ -132,7 +123,6 @@ body {
 .banner-titulo { font-size: 12px; color: var(--accent-cyan); margin: 0 0 4px; }
 .banner-creador-texto { margin: 0; font-size: 13px; opacity: 0.8; }
 .banner-usuario { display: flex; align-items: center; gap: 10px; font-size: 14px; }
-
 .btn-mini, .btn-mini-peligro {
   background: transparent;
   border: 1px solid var(--metal-dark);
@@ -175,13 +165,15 @@ body {
   margin-top: 24px;
 }
 @media (max-width: 720px) { .zona-canciones-letras { grid-template-columns: 1fr; } }
-
 .titulo-seccion { font-size: 12px; color: var(--accent-cyan); margin-bottom: 14px; }
 
+/* CORRECCIÓN 2: Evitar que paneles se empujen o aplasten */
 .panel-canciones, .panel-letras {
   background: rgba(20,16,42,0.6);
   border: 1px solid var(--metal-dark);
   padding: 16px;
+  min-width: 0; 
+  overflow: hidden; 
 }
 
 .filtros { display: flex; gap: 8px; margin-bottom: 12px; }
@@ -192,9 +184,11 @@ body {
   padding: 8px;
   font-family: "Rubik", sans-serif;
   flex: 1;
+  min-width: 0;
 }
-
 .lista-canciones { list-style: none; margin: 0; padding: 0; max-height: 420px; overflow-y: auto; }
+
+/* CORRECCIÓN 2: Gap añadido para separar info del botón borrar */
 .item-cancion {
   display: flex;
   justify-content: space-between;
@@ -202,11 +196,29 @@ body {
   padding: 10px 8px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
   cursor: pointer;
+  gap: 8px;
 }
 .item-cancion.activa { background: rgba(53,224,200,0.1); border-left: 3px solid var(--accent-cyan); }
 .item-cancion:hover { background: rgba(255,255,255,0.04); }
-.cancion-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-.cancion-nombre { font-size: 15px; font-weight: 500; }
+
+/* CORRECCIÓN 2: min-width:0 es vital en Flexbox para que ellipsis funcione */
+.cancion-info { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 2px; 
+  flex: 1; 
+  min-width: 0; 
+  overflow: hidden;
+}
+
+/* CORRECCIÓN 2: Cortar título largo con puntos suspensivos */
+.cancion-nombre { 
+  font-size: 15px; 
+  font-weight: 500; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .cancion-meta { font-size: 11px; opacity: 0.6; }
 .cancion-estrellas { color: var(--accent-amber); font-size: 13px; }
 .calificar-actual { margin-top: 14px; font-size: 22px; color: var(--accent-amber); }
@@ -232,7 +244,40 @@ body {
   font-size: 15px;
   line-height: 1.6;
 }
-.botones-letra { display: flex; gap: 8px; margin-top: 12px; }
+
+/* CORRECCIÓN 1: Mejorar visibilidad de botones de letra */
+.botones-letra { 
+  display: flex; 
+  gap: 8px; 
+  margin-top: 12px; 
+  flex-wrap: wrap;
+}
+.botones-letra button {
+  padding: 10px 16px;
+  border: none;
+  cursor: pointer;
+  font-family: "Rubik", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  transition: filter 0.2s;
+}
+#btn-guardar-letra {
+  background: var(--accent-cyan);
+  color: #0b1224;
+}
+#btn-guardar-letra:hover { filter: brightness(1.15); }
+#btn-cancelar-letra {
+  background: transparent;
+  border: 1px solid var(--metal-dark);
+  color: var(--text-light);
+}
+#btn-cancelar-letra:hover { border-color: var(--peligro); color: var(--peligro); }
+#btn-anadir-editar-letra {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--metal-dark);
+  color: var(--text-light);
+}
+#btn-anadir-editar-letra:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
 
 /* ── Chat ────────────────────────────────────────────────── */
 .panel-chat {
@@ -256,7 +301,6 @@ body {
   padding: 10px;
   font-family: "Rubik", sans-serif;
 }
-
 .pie-pagina { text-align: center; opacity: 0.45; font-size: 12px; margin-top: 30px; }
 
 /* ── Modal admin ─────────────────────────────────────────── */
