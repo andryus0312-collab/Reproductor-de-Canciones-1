@@ -176,6 +176,8 @@ body {
 }
 @media (max-width: 720px) { .zona-canciones-letras { grid-template-columns: 1fr; } }
 
+.panel-canciones, .panel-letras { min-width: 0; }
+
 .titulo-seccion { font-size: 12px; color: var(--accent-cyan); margin-bottom: 14px; }
 
 .panel-canciones, .panel-letras {
