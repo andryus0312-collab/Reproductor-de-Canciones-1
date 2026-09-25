@@ -26,6 +26,9 @@ $("#btn-anadir-editar-letra").addEventListener("click", async () => {
   editor.innerHTML = doc.exists ? doc.data().html : "";
   editor.hidden = false;
   $("#visor-letra").hidden = true;
+  $("#btn-anadir-editar-letra").hidden = true;
+  $("#btn-guardar-letra").hidden = false;
+  $("#btn-cancelar-letra").hidden = false;
   editor.focus();
 });
 
