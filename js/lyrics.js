@@ -10,6 +10,9 @@ async function cargarLetraDeCancion(cancionId) {
   editor.hidden = true;
   visor.hidden = false;
   visor.innerHTML = "⏳ Cargando letra...";
+  $("#btn-guardar-letra").hidden = true;
+  $("#btn-cancelar-letra").hidden = true;
+  $("#btn-anadir-editar-letra").hidden = false;
 
   const doc = await db.collection("letras").doc(cancionId).get();
   if (doc.exists && doc.data().html) {
