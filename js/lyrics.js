@@ -68,11 +68,17 @@ $("#btn-guardar-letra").addEventListener("click", async () => {
   $("#editor-letra").hidden = true;
   $("#visor-letra").hidden = false;
   $("#visor-letra").innerHTML = html;
+  $("#btn-guardar-letra").hidden = true;
+  $("#btn-cancelar-letra").hidden = true;
+  $("#btn-anadir-editar-letra").hidden = false;
 });
 
 $("#btn-cancelar-letra").addEventListener("click", () => {
   $("#editor-letra").hidden = true;
   $("#visor-letra").hidden = false;
+  $("#btn-guardar-letra").hidden = true;
+  $("#btn-cancelar-letra").hidden = true;
+  $("#btn-anadir-editar-letra").hidden = false;
 });
 
 // Nota: en esta v1 la letra se muestra COMPLETA mientras suena la
