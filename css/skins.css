@@ -1,20 +1,42 @@
 /* ════════════════════════════════════════════════════════════
-   🎛️ SKINS DEL REPRODUCTOR
-   El contenedor .carcasa-player cambia de forma según
-   body[data-skin="..."]
-   ════════════════════════════════════════════════════════════ */
-
+🎛️ SKINS DEL REPRODUCTOR
+El contenedor .carcasa-player cambia de forma según
+body[data-skin="..."]
+════════════════════════════════════════════════════════════ */
 .carcasa-player { margin-bottom: 8px; }
-.pantalla-player { padding: 16px; }
-.player-titulo { font-weight: 700; margin: 0 0 2px; font-size: 16px; }
-.player-subtitulo { margin: 0 0 10px; font-size: 12px; opacity: 0.7; }
+
+/* CORRECCIÓN 3: overflow hidden en pantalla para que nada se salga */
+.pantalla-player { 
+  padding: 16px; 
+  overflow: hidden; 
+}
+
+/* CORRECCIÓN 3: Título no se desborda, usa puntos suspensivos */
+.player-titulo { 
+  font-weight: 700; 
+  margin: 0 0 2px; 
+  font-size: 16px; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* CORRECCIÓN 3: Subtítulo igual */
+.player-subtitulo { 
+  margin: 0 0 10px; 
+  font-size: 12px; 
+  opacity: 0.7; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .barra-tiempo { display: flex; align-items: center; gap: 8px; font-size: 11px; }
 .barra-tiempo input[type="range"] { flex: 1; }
 .controles-player { display: flex; align-items: center; gap: 16px; padding: 12px 16px; }
 .btn-transporte { font-size: 20px; cursor: pointer; border: none; }
 
 /* ── 💿 WINAMP / WINDOWS XP ──────────────────────────────── */
-/* Bisel metálico horizontal, verde LCD clásico, botones cuadrados */
 body[data-skin="winamp"] .carcasa-player {
   background: linear-gradient(180deg, #d8dbe0, #9aa0aa 4%, #7d838f 96%, #5c626d);
   border: 2px solid #3a3f47;
@@ -39,7 +61,6 @@ body[data-skin="winamp"] .btn-transporte {
 body[data-skin="winamp"] .btn-transporte:active { background: #8b929c; }
 
 /* ── 🎵 IPOD CLÁSICO ─────────────────────────────────────── */
-/* Cuerpo blanco/plateado vertical, pantalla arriba, "click wheel" abajo */
 body[data-skin="ipod"] .carcasa-player {
   max-width: 300px;
   margin: 0 auto 8px;
@@ -74,7 +95,6 @@ body[data-skin="ipod"] .barra-tiempo { color: #16321f; }
 body[data-skin="ipod"] #control-volumen { width: 120px; }
 
 /* ── 📱 SONY ERICSSON CLÁSICO ────────────────────────────── */
-/* Carcasa oscura estrecha tipo "candybar" con pantalla azulada pequeña */
 body[data-skin="sonyericsson"] .carcasa-player {
   max-width: 260px;
   margin: 0 auto 8px;
@@ -103,3 +123,12 @@ body[data-skin="sonyericsson"] .btn-transporte {
   font-size: 16px;
 }
 body[data-skin="sonyericsson"] #control-volumen { width: 90px; }
+
+/* ── Ajuste extra de tamaño para skins estrechos ─────────── */
+body[data-skin="ipod"] .player-titulo,
+body[data-skin="sonyericsson"] .player-titulo {
+  font-size: 13px;
+}
+body[data-skin="sonyericsson"] .pantalla-player {
+  padding: 10px;
+}
