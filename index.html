@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>🎧 Reproductor Retro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rubik:wght@400;500;700&family=Anton&family=Permanent+Marker&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/skins.css">
 </head>
@@ -14,28 +14,49 @@
 <!-- ═══════════════ VISTA: LOGIN / REGISTRO ═══════════════ -->
 <section id="vista-auth" class="vista-auth">
   <div class="tarjeta-auth">
-    <h1 class="titulo-pixel">🎧 REPRODUCTOR RETRO</h1>
+    <span class="deco-nota deco-nota-1">♪</span>
+    <span class="deco-nota deco-nota-2">♫</span>
+    <span class="deco-cinta deco-cinta-1"></span>
+    <span class="deco-cinta deco-cinta-2"></span>
+    <div class="deco-vinilo"></div>
+
+    <div class="cabecera-auth">
+      <h1 class="titulo-poster">REPRODUCTOR<br>RETRO</h1>
+      <span class="deco-audifonos">🎧</span>
+    </div>
     <p class="subtitulo-auth">Un espacio nostálgico solo para nosotros 3 ✨</p>
 
     <p id="auth-error" class="auth-error" hidden></p>
 
     <form id="form-login" class="form-auth">
-      <h2>Entrar</h2>
-      <input type="email" id="login-email" placeholder="Correo" required>
-      <input type="password" id="login-pass" placeholder="Contraseña" required>
+      <span class="sello-form">Iniciar sesión</span>
+      <label class="etiqueta-campo" for="login-email">Correo</label>
+      <input type="email" id="login-email" placeholder="usuario@correo.com" autocapitalize="off" autocorrect="off" spellcheck="false" required>
+      <label class="etiqueta-campo" for="login-pass">Contraseña</label>
+      <input type="password" id="login-pass" placeholder="••••••••••" autocapitalize="off" autocorrect="off" spellcheck="false" required>
+      <label class="check-mostrar"><input type="checkbox" class="toggle-pass" data-target="login-pass"> 👁️ Mostrar contraseña</label>
       <button type="submit" class="btn-principal">▶ Entrar</button>
-      <p class="link-auth">¿No tienes cuenta? <a href="#" id="link-ir-registro">Regístrate</a></p>
+      <p class="link-auth">¿No tienes cuenta? <a href="#" id="link-ir-registro" class="link-firma">Regístrate</a></p>
     </form>
 
     <form id="form-registro" class="form-auth" hidden>
-      <h2>Crear cuenta</h2>
-      <input type="text" id="registro-nombre" placeholder="Tu nombre" required>
-      <input type="email" id="registro-email" placeholder="Correo" required>
-      <input type="password" id="registro-pass" placeholder="Contraseña (mín. 6 caracteres)" required>
-      <button type="submit" class="btn-principal">✨ Registrarme</button>
-      <p class="link-auth">¿Ya tienes cuenta? <a href="#" id="link-ir-login">Entra aquí</a></p>
+      <span class="sello-form">Crear cuenta</span>
+      <label class="etiqueta-campo" for="registro-nombre">Tu nombre</label>
+      <input type="text" id="registro-nombre" placeholder="¿Cómo te llamas?" required>
+      <label class="etiqueta-campo" for="registro-email">Correo</label>
+      <input type="email" id="registro-email" placeholder="usuario@correo.com" autocapitalize="off" autocorrect="off" spellcheck="false" required>
+      <label class="etiqueta-campo" for="registro-pass">Contraseña</label>
+      <input type="password" id="registro-pass" placeholder="mín. 6 caracteres" autocapitalize="off" autocorrect="off" spellcheck="false" required>
+      <label class="check-mostrar"><input type="checkbox" class="toggle-pass" data-target="registro-pass"> 👁️ Mostrar contraseña</label>
+      <button type="submit" class="btn-principal">▶ Registrarme</button>
+      <p class="link-auth">¿Ya tienes cuenta? <a href="#" id="link-ir-login" class="link-firma">Entra aquí</a></p>
       <p class="nota-limite">⚠️ Solo hay espacio para {{MAX_USUARIOS}} personas. Si está lleno, pídele al admin que libere un cupo.</p>
     </form>
+
+    <p class="sello-pie">
+      <span class="eq-mini"><span></span><span></span><span></span><span></span><span></span></span>
+      ACCESO · MÚSICA · EDICIÓN ONLINE
+    </p>
   </div>
 </section>
 
@@ -100,7 +121,7 @@
   <div class="zona-canciones-letras">
     <div class="panel-canciones">
       <h2 class="titulo-pixel titulo-seccion">🎶 CANCIONES</h2>
-<p id="debug-canciones" style="font-size:11px;opacity:0.6;">🔧 esperando datos...</p>
+      <p id="debug-canciones" style="font-size:11px;opacity:0.6;">🔧 esperando datos...</p>
       <div class="filtros">
         <input type="text" id="filtro-nombre" placeholder="🔍 Buscar por nombre...">
         <select id="filtro-orden">
@@ -171,9 +192,10 @@
   </div>
 </div>
 
-<!-- Firebase SDK (compat, más simple para este proyecto) — solo Auth + Firestore -->
 <!-- 🔧 Consola de depuración visual (solo se activa para el admin, ver auth.js) -->
 <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+
+<!-- Firebase SDK (compat, más simple para este proyecto) — solo Auth + Firestore -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
