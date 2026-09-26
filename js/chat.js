@@ -61,3 +61,12 @@ async function limpiarChatDeSesion() {
   snap.forEach(doc => batch.delete(doc.ref));
   await batch.commit();
 }
+
+// ── Burbuja flotante: abrir/cerrar el panel de chat ─────────
+$("#btn-toggle-chat").addEventListener("click", () => {
+  const panel = $("#panel-chat");
+  panel.hidden = !panel.hidden;
+});
+$("#btn-cerrar-chat").addEventListener("click", () => {
+  $("#panel-chat").hidden = true;
+});
