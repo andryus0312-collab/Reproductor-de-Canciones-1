@@ -63,6 +63,25 @@ $("#form-registro").addEventListener("submit", async (e) => {
   }
 });
 
+// Lanza un puñado de notas musicales flotando hacia arriba (feedback
+// visual de "login correcto"), y se autodestruyen solas al terminar
+// su animación.
+function lanzarNotasExito() {
+  const notas = ["♪", "♫", "🎵", "🎶"];
+  const centroX = window.innerWidth / 2;
+  const centroY = window.innerHeight / 2;
+  for (let i = 0; i < 8; i++) {
+    const span = document.createElement("span");
+    span.className = "nota-exito";
+    span.textContent = notas[Math.floor(Math.random() * notas.length)];
+    span.style.left = (centroX + (Math.random() * 200 - 100)) + "px";
+    span.style.top = (centroY + (Math.random() * 60 - 30)) + "px";
+    span.style.animationDelay = (Math.random() * 0.3) + "s";
+    document.body.appendChild(span);
+    setTimeout(() => span.remove(), 2200);
+  }
+}
+
 // ── Login ─────────────────────────────────────────────────
 $("#form-login").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -71,6 +90,7 @@ $("#form-login").addEventListener("submit", async (e) => {
   const pass = $("#login-pass").value;
   try {
     await auth.signInWithEmailAndPassword(email, pass);
+    lanzarNotasExito();
   } catch (err) {
     mostrarAuthError("❌ " + traducirErrorFirebase(err));
   }
@@ -116,6 +136,7 @@ auth.onAuthStateChanged(async (user) => {
     esAdmin: !!perfil.esAdmin
   };
 
+  mostrarNotasExito();
   authView.hidden = true;
   appView.hidden = false;
   $("#usuario-nombre").textContent = usuarioActual.nombre + (usuarioActual.esAdmin ? " 👑" : "");
@@ -180,8 +201,16 @@ function traducirErrorFirebase(err) {
     "auth/invalid-email": "El correo no es válido.",
     "auth/weak-password": "La contraseña necesita mínimo 6 caracteres.",
     "auth/wrong-password": "Contraseña incorrecta.",
+    "auth/invalid-credential": "Correo o contraseña incorrectos.",
     "auth/user-not-found": "No hay cuenta con ese correo.",
     "auth/too-many-requests": "Demasiados intentos, espera un momento."
   };
   return map[err.code] || err.message;
 }
+
+document.querySelectorAll(".toggle-pass").forEach((chk) => {
+  chk.addEventListener("change", () => {
+    const input = document.getElementById(chk.dataset.target);
+    input.type = chk.checked ? "text" : "password";
+  });
+});
