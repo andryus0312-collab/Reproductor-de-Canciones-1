@@ -177,9 +177,13 @@
     </div>
   </div>
 
-  <!-- Chat grupal -->
-  <div class="panel-chat">
-    <h2 class="titulo-pixel titulo-seccion">💬 CHAT (se borra al salir)</h2>
+  <!-- Chat grupal (burbuja flotante) -->
+  <button id="btn-toggle-chat" class="burbuja-chat" title="Chat en vivo">💬</button>
+  <div id="panel-chat" class="panel-chat" hidden>
+    <div class="chat-cabecera">
+      <h2 class="titulo-chat-flot">💬 Chat en vivo</h2>
+      <button id="btn-cerrar-chat" class="btn-cerrar-chat">✕</button>
+    </div>
     <div id="mensajes-chat" class="mensajes-chat"></div>
     <div id="selector-emojis" class="selector-emojis"></div>
     <form id="form-chat" class="form-chat">
