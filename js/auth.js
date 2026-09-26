@@ -136,7 +136,6 @@ auth.onAuthStateChanged(async (user) => {
     esAdmin: !!perfil.esAdmin
   };
 
-  mostrarNotasExito();
   authView.hidden = true;
   appView.hidden = false;
   $("#usuario-nombre").textContent = usuarioActual.nombre + (usuarioActual.esAdmin ? " 👑" : "");
