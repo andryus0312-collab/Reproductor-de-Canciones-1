@@ -304,8 +304,8 @@ body {
 .banner-creador {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  padding: 18px 22px;
+  align-items: center;
+  padding: 32px 26px;
   background: #f2ece1;
   color: #201a12;
   border: 3px solid #17130d;
@@ -314,11 +314,12 @@ body {
   margin-bottom: 22px;
   flex-wrap: wrap;
   gap: 12px;
+  min-height: 175px;
 }
-.banner-contenido { display: flex; align-items: flex-end; gap: 16px; }
+.banner-contenido { display: flex; align-items: center; gap: 20px; align-self: center; }
 
 /* ── Grabadora pixel con ecualizador animado ──────────────── */
-.grabadora { display: flex; flex-direction: column; align-items: center; width: 76px; flex-shrink: 0; }
+.grabadora { display: flex; flex-direction: column; align-items: center; width: 92px; flex-shrink: 0; }
 .grabadora-eq {
   display: flex;
   align-items: flex-end;
@@ -345,15 +346,15 @@ body {
   50% { transform: scaleY(1); }
 }
 .grabadora-cuerpo {
-  width: 76px;
-  height: 40px;
+  width: 92px;
+  height: 48px;
   background: #6b4a34;
   border: 2.5px solid #17130d;
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 5px;
+  padding: 0 6px;
   box-shadow: inset 0 -4px 0 rgba(0,0,0,0.15);
 }
 .grabadora-altavoz {
@@ -381,14 +382,15 @@ body {
 @keyframes girar-suave { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 .banner-titulo {
   font-family: "Anton", "Rubik", sans-serif;
-  font-size: 22px;
+  font-size: 38px;
   letter-spacing: 0.5px;
   color: #17130d;
   text-transform: uppercase;
-  margin: 0 0 2px;
+  margin: 0 0 4px;
+  line-height: 1.05;
 }
-.banner-creador-texto { margin: 0; font-size: 13px; color: #4a4032; }
-.banner-usuario { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #201a12; }
+.banner-creador-texto { margin: 0; font-size: 17px; color: #4a4032; }
+.banner-usuario { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #201a12; align-self: flex-end; }
 
 .btn-mini, .btn-mini-peligro {
   background: #fbf8f2;
